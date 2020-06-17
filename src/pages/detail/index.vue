@@ -3,7 +3,7 @@
     <swiper class="swiper">
       <swiper-item v-for="(item, i) in detail.imgs" :key="i">
         <div class="swiper-item">
-          <img :src="item" alt="">
+          <img mode="aspectFill" :src="item" alt="">
         </div>
       </swiper-item>
     </swiper>
@@ -57,7 +57,7 @@ export default {
   }
   img {
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
   }
 }
 </style>
