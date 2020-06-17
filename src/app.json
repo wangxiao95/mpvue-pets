@@ -4,7 +4,8 @@
     "pages/logs/main",
     "pages/counter/main",
     "pages/home/main",
-    "pages/mine/main"
+    "pages/mine/main",
+    "pages/detail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

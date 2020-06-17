@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <Search></Search>
+    <Search theme="#d6dfe6"></Search>
     <div class="home-wrapper">
       <div class="card-column" id="left-column">
-        <Card v-for="(item, i) in leftColumn" :key="i" :name="item.name" :img="item.mainImg"/>
+        <Card v-for="(item, i) in leftColumn" :key="i" :item="item"/>
       </div>
       <div class="card-column" id="right-column">
-        <Card v-for="(item, i) in rightColumn" :key="i" :name="item.name" :img="item.mainImg"/>
+        <Card v-for="(item, i) in rightColumn" :key="i" :item="item"/>
       </div>
     </div>
   </div>
@@ -15,6 +15,7 @@
 <script>
   import Search from '../../components/Search'
   import Card from '../../components/Card'
+  // import _ from 'lodash'
 
   mpvue.cloud.init()
   const db = mpvue.cloud.database()
@@ -35,39 +36,23 @@
     methods: {
       pushColumn () {
         this.dogs.forEach((item, i) => {
-          if (i === 0) {
+          if (i % 2) {
+            this.rightColumn.push(item)
+          } else {
             this.leftColumn.push(item)
-            return false
           }
-          this.getDomPosition(item)
         })
-      },
-
-      getDomPosition(item) {
-        let left = 0, right = 0
-        const query = mpvue.createSelectorQuery()
-        query.select(`#left-column`).fields({size: true}, res => {
-          left = res.height
-          console.log(left)
-          query.select(`#right-column`).fields({size: true}, res => {
-            right = res.height
-            // console.log(right)
-            if (left >= right) {
-              // this.leftColumn.push(item)
-            } else {
-              // this.rightColumn.push(item)
-            }
-          }).exec()
-        }).exec()
-
-      },
+      }
     },
     created () {
       db.collection('dogs').limit(10).get()
         .then(res => {
-          console.log(res)
           this.dogs = res.data
-          console.log(this)
+          this.dogs = this.dogs.map(item => {
+            return Object.assign(item, {
+              mainImg: `cloud://prod-2.7072-prod-2-1302420057/dogs/${item.mainImg}`
+            })
+          })
           this.pushColumn()
         })
     }
@@ -78,19 +63,25 @@
   @import '../../assets/styles/var';
 
   .home {
+    /*padding-top: 108rpx;*/
     &-wrapper {
-      /*display: flex;*/
-      /*justify-content: space-between;*/
-      padding: 0 15px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20rpx;
     }
+    /*.fixed-top {*/
+      /*position: fixed;*/
+      /*top: 0;*/
+      /*left: 0;*/
+    /*}*/
   }
 
   .card-column {
     float: left;
-    width: calc((100vw - 45px) / 2);
-    border: 1px solid;
+    width: 345rpx;
+    /*border: 1px solid;*/
     &:last-child {
-      margin-left: 10px;
+      /*margin-left: 30rpx;*/
     }
   }
 

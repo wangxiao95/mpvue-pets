@@ -1,8 +1,8 @@
 <template>
-  <div class="card">
-    <img :src="img" alt="">
+  <div class="card" @click="goDetail">
+    <img :src="item.mainImg" :style="{width: outW + 'rpx', height: h * outW / w + 'rpx'}" alt="">
     <div class="detail">
-      {{ name }}
+      {{ item.name }}
     </div>
   </div>
 </template>
@@ -10,21 +10,74 @@
 <script>
 export default {
   props: {
-    img: {
-      type: String
-    },
-    name: {
-      type: String
+    item: {
+      type: Object,
+      default: () => {
+        return {
+          name: '',
+          mainImg: '',
+          detailId: ''
+        }
+      }
     }
+  },
+  data() {
+    return {
+      w: '',
+      h: '',
+      outW: 305
+    }
+  },
+  computed: {
+
+  },
+  watch: {
+    item: {
+      immediate: true,
+      handler(val) {
+        mpvue.getImageInfo({
+          src: val.mainImg,
+          success: res => {
+            this.w = res.width
+            this.h = res.height
+          }
+        })
+      }
+    }
+  },
+  methods: {
+    goDetail() {
+      console.log(this.item);
+      mpvue.navigateTo({
+        url: '../detail/main?id=' + this.item.detailId,
+      })
+    }
+  },
+  created() {
+
   }
 }
 </script>
 
-<style>
+<style lang="less">
 .card {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
+  padding: 20rpx 20rpx 0;
+  margin-top: 10px;
+  background: #d6dfe6;
+  box-sizing: border-box;
+  img {
+    /*display: block;*/
+    /*max-width: 100%;*/
+  }
+  .detail {
+    font-size: 28rpx;
+    color: #666;
+    line-height: 60rpx;
+  }
 }
 </style>

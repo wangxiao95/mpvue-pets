@@ -1,5 +1,8 @@
 <script>
-export default {
+  // import _ from 'lodash'
+  // global._ = _
+
+  export default {
   created () {
     // 调用API从本地缓存中获取数据
     /*
