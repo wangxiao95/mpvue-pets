@@ -7,6 +7,18 @@
         </div>
       </swiper-item>
     </swiper>
+
+    <i-tabs :current="activeTab" scroll @change="changeActive">
+      <i-tab key="tab1" title="选项1"></i-tab>
+      <i-tab key="tab2" title="选项2"></i-tab>
+      <i-tab key="tab3" title="选项3"></i-tab>
+      <i-tab key="tab4" title="选项4"></i-tab>
+      <i-tab key="tab5" title="选项5"></i-tab>
+      <i-tab key="tab6" title="选项6"></i-tab>
+      <i-tab key="tab7" title="选项7"></i-tab>
+      <i-tab key="tab8" title="选项8"></i-tab>
+      <i-tab key="tab9" title="选项9"></i-tab>
+    </i-tabs>
   </div>
 </template>
 
@@ -21,10 +33,15 @@ export default {
 
   data () {
     return {
-      detail: {}
+      detail: {},
+      activeTab: 'tab5',
     }
   },
   methods: {
+    changeActive(e) {
+      console.log(e)
+      this.activeTab = e.target.key
+    },
     getDetail(id) {
       db.collection('dog_detail').doc(id).get()
         .then(res => {

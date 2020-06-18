@@ -1,3 +1,7 @@
 {
-  "navigationBarTitleText": "详情"
+  "navigationBarTitleText": "详情",
+  "usingComponents": {
+    "i-tabs": "../../../static/components/iview/tabs/index",
+    "i-tab": "../../../static/components/iview/tab/index"
+  }
 }
