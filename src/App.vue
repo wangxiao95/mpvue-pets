@@ -35,6 +35,9 @@
 
 <style lang="less">
 @import "assets/styles/index.less";
+.root-page {
+  padding-bottom: 50px;
+}
 .container {
   height: 100%;
   display: flex;

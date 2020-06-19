@@ -2,6 +2,9 @@
   "navigationBarTitleText": "详情",
   "usingComponents": {
     "i-tabs": "../../../static/components/iview/tabs/index",
-    "i-tab": "../../../static/components/iview/tab/index"
+    "i-tab": "../../../static/components/iview/tab/index",
+    "i-rate": "../../../static/components/iview/rate/index",
+    "i-sticky": "../../../static/components/iview/sticky/index",
+    "i-sticky-item": "../../../static/components/iview/sticky-item/index"
   }
 }

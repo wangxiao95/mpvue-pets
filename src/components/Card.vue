@@ -25,7 +25,7 @@ export default {
     return {
       w: '',
       h: '',
-      outW: 305
+      outW: 345
     }
   },
   computed: {
@@ -64,11 +64,13 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-radius: 10px;
+  /*border-radius: 10px;*/
+  border-bottom-left-radius: unset;
+  border-bottom-right-radius: unset;
   overflow: hidden;
-  padding: 20rpx 20rpx 0;
+  /*padding: 20rpx 20rpx 0;*/
   margin-top: 10px;
-  background: #d6dfe6;
+  background: #e7f0f7;
   box-sizing: border-box;
   img {
     /*display: block;*/
@@ -78,6 +80,7 @@ export default {
     font-size: 28rpx;
     color: #666;
     line-height: 60rpx;
+    text-align: center;
   }
 }
 </style>

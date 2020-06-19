@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home root-page">
     <Search theme="#d6dfe6"></Search>
     <div class="home-wrapper">
       <div class="card-column" id="left-column">
@@ -9,12 +9,14 @@
         <Card v-for="(item, i) in rightColumn" :key="i" :item="item"/>
       </div>
     </div>
+    <Bar active="homepage" color="#f759ab"></Bar>
   </div>
 </template>
 
 <script>
   import Search from '../../components/Search'
   import Card from '../../components/Card'
+  import Bar from '../../components/Bar'
   // import _ from 'lodash'
 
   mpvue.cloud.init()
@@ -23,7 +25,8 @@
   export default {
     components: {
       Search,
-      Card
+      Card,
+      Bar
     },
 
     data () {
