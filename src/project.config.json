@@ -58,21 +58,36 @@
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": [
-				{
-					"id": -1,
-					"name": "pages/home/main",
-					"pathName": "pages/home/main",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/index/main",
-					"pathName": "pages/index/main",
-					"scene": null
-				}
-			]
+      "list": [
+        {
+          "id": -1,
+          "name": "pages/home/main",
+          "pathName": "pages/home/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/detail/main",
+          "pathName": "pages/detail/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/mine/main",
+          "pathName": "pages/mine/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/square/main",
+          "pathName": "pages/square/main",
+          "query": "",
+          "scene": null
+        }
+      ]
 		}
 	}
 }

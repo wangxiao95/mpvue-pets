@@ -1,15 +1,21 @@
 <template>
   <div class="home root-page">
-    <Search theme="#d6dfe6"></Search>
-    <div class="home-wrapper">
-      <div class="card-column" id="left-column">
-        <Card v-for="(item, i) in leftColumn" :key="i" :item="item"/>
-      </div>
-      <div class="card-column" id="right-column">
-        <Card v-for="(item, i) in rightColumn" :key="i" :item="item"/>
-      </div>
+    <div class="search-container">
+      <Search theme="#ff7800"></Search>
     </div>
-    <Bar active="homepage" color="#f759ab"></Bar>
+    <scroll-view :scroll-y="true" style="height: calc(100vh - 200rpx)" :enable-back-to-top="true" @scrolltolower="loadMore" :lower-threshold="50">
+      <div class="home-wrapper">
+        <div class="card-column" id="left-column">
+          <Card v-for="(item, i) in leftColumn" :key="i" :item="item" :type="type"/>
+        </div>
+        <div class="card-column" id="right-column">
+          <Card v-for="(item, i) in rightColumn" :key="i" :item="item" :type="type"/>
+        </div>
+      </div>
+      <i-load-more v-if="loading" />
+      <i-load-more v-if="!loading" :tip="loadTip" :loading="false" />
+    </scroll-view>
+    <Bar active="home"></Bar>
   </div>
 </template>
 
@@ -17,6 +23,7 @@
   import Search from '../../components/Search'
   import Card from '../../components/Card'
   import Bar from '../../components/Bar'
+  import { file } from '../../utils/env'
   // import _ from 'lodash'
 
   mpvue.cloud.init()
@@ -31,33 +38,72 @@
 
     data () {
       return {
-        dogs: [],
+        type: 'cat', // dog cat
+        dog: [],
+        cat: [],
         leftColumn: [],
-        rightColumn: []
+        rightColumn: [],
+        pageNo: 1,
+        pageSize: 10,
+        pageCount: 0,
+        loading: false,
+        loadTip: '下拉加载更多'
       }
     },
     methods: {
       pushColumn () {
-        this.dogs.forEach((item, i) => {
+        this[this.type].forEach((item, i) => {
           if (i % 2) {
             this.rightColumn.push(item)
           } else {
             this.leftColumn.push(item)
           }
         })
+      },
+      loadMore(e) {
+        console.log(this.pageNo, this.pageCount);
+        if (this.loading) {
+          return
+        }
+        if (this.pageNo > this.pageCount) {
+          this.loadTip = '没有更多啦'
+          return
+        }
+        this.loading = true
+        this.pageNo ++
+        this.getData()
+      },
+      getData() {
+        db.collection(this.type).skip((this.pageNo - 1) * this.pageSize).limit(this.pageSize).get()
+          .then(res => {
+            this.loading = false
+            this[this.type] = res.data
+            this[this.type] = this[this.type].map(item => {
+              return Object.assign(item, {
+                mainImg: `${file}${this.type}s/${item.mainImg}`
+              })
+            })
+            this.pushColumn()
+          })
+      },
+      async getPageCount() {
+        const res = await db.collection(this.type).count()
+        console.log(res);
+        this.pageCount = Math.ceil(res.total / this.pageSize)
       }
     },
     created () {
-      db.collection('dogs').limit(10).get()
-        .then(res => {
-          this.dogs = res.data
-          this.dogs = this.dogs.map(item => {
-            return Object.assign(item, {
-              mainImg: `cloud://prod-2.7072-prod-2-1302420057/dogs/${item.mainImg}`
-            })
-          })
-          this.pushColumn()
-        })
+      this.getData()
+      this.getPageCount()
+    },
+    onShow() {
+      mpvue.hideHomeButton()
+      // if (typeof this.getTabBar === 'function' &&
+      //   this.getTabBar()) {
+      //   this.getTabBar().setData({
+      //     selected: 0
+      //   })
+      // }
     }
   }
 </script>
@@ -65,8 +111,15 @@
 <style lang="less">
   @import '../../assets/styles/var';
 
+  .search-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
   .home {
-    /*padding-top: 108rpx;*/
+    padding-top: 108rpx;
+    background: rgba(255, 120, 0, .1);
     &-wrapper {
       display: flex;
       justify-content: space-between;

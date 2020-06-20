@@ -1,14 +1,17 @@
 <template>
-  <div class="container">
-    <span>dsfdsf</span>test
+  <div class="">
+    <span>mine</span>
+    <Bar active="mine"></Bar>
   </div>
 </template>
 
 <script>
 
-export default {
-  components: {
+  import Bar from "../../components/Bar"
 
+  export default {
+    components: {
+      Bar
   },
 
   data () {
@@ -19,14 +22,19 @@ export default {
 
   created () {
 
+  },
+  onShow() {
+    console.log(this.getTabBar);
+    mpvue.hideHomeButton()
+    // if (typeof this.getTabBar === 'function' &&
+    //   this.getTabBar()) {
+    //   this.getTabBar().setData({
+    //     selected: 2
+    //   })
+    // }
   }
 }
 </script>
 
 <style lang="less">
-.container {
-  span {
-    color: red;
-  }
-}
 </style>

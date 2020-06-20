@@ -1,3 +1,7 @@
 {
-  "navigationBarTitleText": "我的"
+  "navigationBarTitleText": "我的",
+  "usingComponents": {
+  "i-tab-bar": "../../static/components/iview/tab-bar/index",
+  "i-tab-bar-item": "../../static/components/iview/tab-bar-item/index"
+}
 }

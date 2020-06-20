@@ -19,7 +19,11 @@ export default {
           detailId: ''
         }
       }
-    }
+    },
+    type: {
+      type: String,
+      default: 'dog'
+    },
   },
   data() {
     return {
@@ -49,7 +53,7 @@ export default {
     goDetail() {
       console.log(this.item);
       mpvue.navigateTo({
-        url: '../detail/main?id=' + this.item.detailId,
+        url: '../detail/main?id=' + this.item.detailId + '&type=' + this.type,
       })
     }
   },
@@ -70,15 +74,16 @@ export default {
   overflow: hidden;
   /*padding: 20rpx 20rpx 0;*/
   margin-top: 10px;
-  background: #e7f0f7;
+  background: #fff;
   box-sizing: border-box;
   img {
     /*display: block;*/
     /*max-width: 100%;*/
+    height: 130px;
   }
   .detail {
     font-size: 28rpx;
-    color: #666;
+    color: #282828;
     line-height: 60rpx;
     text-align: center;
   }

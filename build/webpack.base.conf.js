@@ -127,6 +127,11 @@ let baseWebpackConfig = {
         from: path.resolve(__dirname, '../static'),
         to: path.resolve(config.build.assetsRoot, './static'),
         ignore: ['.*']
+      },
+      {
+        from: path.resolve(__dirname, '../custom-tab-bar'),
+        to: path.resolve(config.build.assetsRoot, './custom-tab-bar'),
+        ignore: ['.*']
       }
     ])
   ]
