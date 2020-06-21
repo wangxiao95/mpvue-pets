@@ -5,6 +5,7 @@
   "usingComponents": {
     "i-tab-bar": "../../static/components/iview/tab-bar/index",
     "i-tab-bar-item": "../../static/components/iview/tab-bar-item/index",
-    "i-load-more": "../../static/components/iview/load-more/index"
+    "i-load-more": "../../static/components/iview/load-more/index",
+    "i-icon": "../../static/components/iview/icon/index"
   }
 }

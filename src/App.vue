@@ -1,6 +1,5 @@
 <script>
-  // import _ from 'lodash'
-  // global._ = _
+  import './utils/lodashHandle'
 
   export default {
   created () {
@@ -37,6 +36,9 @@
 @import "assets/styles/index.less";
 .root-page {
   padding-bottom: 50px;
+}
+page, text, view, input {
+  box-sizing: border-box;
 }
 .container {
   height: 100%;

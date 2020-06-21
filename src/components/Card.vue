@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     goDetail() {
-      console.log(this.item);
+      // console.log(this.item);
       mpvue.navigateTo({
         url: '../detail/main?id=' + this.item.detailId + '&type=' + this.type,
       })
