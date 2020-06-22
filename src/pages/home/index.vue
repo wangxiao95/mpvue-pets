@@ -26,7 +26,7 @@
   import { file } from '../../utils/env'
   // import _ from 'lodash'
 
-  mpvue.cloud.init()
+  // mpvue.cloud.init()
   const db = mpvue.cloud.database()
 
   export default {

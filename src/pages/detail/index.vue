@@ -51,7 +51,6 @@
 <script>
 import { file } from '../../utils/env'
 
-mpvue.cloud.init()
 const db = mpvue.cloud.database()
 
 export default {

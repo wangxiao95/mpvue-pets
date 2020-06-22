@@ -16,7 +16,6 @@
 <script>
   import _ from 'lodash'
 
-  mpvue.cloud.init()
   const db = mpvue.cloud.database()
 
   export default {
