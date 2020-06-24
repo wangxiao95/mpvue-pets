@@ -1,5 +1,5 @@
 {
-  "name": "login",
+  "name": "callback",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "request-promise": "^4.2.5",
+    "crypto": "^1.0.1",
     "wx-server-sdk": "~2.1.2"
   }
 }

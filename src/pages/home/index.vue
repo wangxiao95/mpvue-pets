@@ -92,7 +92,7 @@
         this.pageCount = Math.ceil(res.total / this.pageSize)
       }
     },
-    created () {
+    mounted () {
       this.getData()
       this.getPageCount()
     },

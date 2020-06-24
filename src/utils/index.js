@@ -18,7 +18,12 @@ export function formatTime (date) {
   return `${t1} ${t2}`
 }
 
+export function getAuth (auth) {
+  return mpvue.authorize({ scope: `scope.${auth}` })
+}
+
 export default {
   formatNumber,
-  formatTime
+  formatTime,
+  getAuth
 }
