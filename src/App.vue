@@ -38,7 +38,18 @@
     methods: {
     },
     onLaunch () {
-      console.log(this)
+      try {
+        const userInfo = mpvue.getStorageSync('userInfo')
+        const login = mpvue.getStorageSync('login')
+        if (userInfo) {
+          store.commit('setUserInfo', userInfo)
+        }
+        if (login !== undefined) {
+          store.commit('updateLogin', login)
+        }
+      } catch (e) {
+        console.log(e)
+      }
       store.dispatch('getAuthInfo')
     }
   }

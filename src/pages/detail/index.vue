@@ -11,6 +11,8 @@
     <div class="detail-info">
       <div class="name">{{detail.name}}</div>
       <div class="price"><span class="price-label">参考价格：</span>{{detail.price}}</div>
+      <Collection :state="collectionState" :id="id" @change="collectionChange"/>
+      <i-icon class="detail-share" size="24" color="#ccc" type="send"></i-icon>
     </div>
     <div class="detail-attrs">
       <div class="detail-attrs__item" v-for="(attr, i) in detail.attr" :key="i">
@@ -50,12 +52,15 @@
 
 <script>
 import { file } from '../../utils/env'
+import Collection from '../../components/Collection'
+import store from '../../store'
+import _ from 'lodash'
 
 const db = mpvue.cloud.database()
 
 export default {
   components: {
-
+    Collection
   },
 
   data () {
@@ -68,6 +73,7 @@ export default {
       scrollTop: 0,
       defaultScrollTop: 0,
       tabScroll: 0,
+      collectionState: false
     }
   },
   computed: {
@@ -100,6 +106,9 @@ export default {
         current: url, // 当前显示图片的http链接
         urls: this.detail.imgs // 需要预览的图片http链接列表
       })
+    },
+    collectionChange(state) {
+      this.collectionState = state
     }
   },
   onPageScroll(event) {
@@ -122,7 +131,6 @@ export default {
       query.exec(res => {
         // res[0].top       // #the-id节点的上边界坐标
         // res[1].scrollTop // 显示区域的竖直滚动位置
-        console.log(res);
         this.defaultScrollTop = res[0].top
       })
     }, 1000)
@@ -146,6 +154,7 @@ export default {
     /*height: 100%;*/
   }
   &-info {
+    position: relative;
     color:#222;
     padding: 40rpx 30rpx;
     background: #fff;
@@ -164,6 +173,11 @@ export default {
         font-size: 26rpx;
       }
     }
+  }
+  &-share {
+    position: absolute;
+    top: 30rpx;
+    right: 40rpx;
   }
   &-attrs {
     display: flex;

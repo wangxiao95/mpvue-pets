@@ -15,16 +15,17 @@ const store = new Vuex.Store({
     },
     setUserInfo: (state, user) => {
       state.userInfo = user
+      mpvue.setStorageSync('userInfo', state.userInfo)
     },
     updateLogin: (state, isLogin) => {
       state.login = isLogin
+      mpvue.setStorageSync('login', state.login)
     }
   },
   actions: {
     getAuthInfo: ({ commit}) => {
       mpvue.getSetting({
         success: res => {
-          console.log(res)
           commit('setAuth', res)
         },
         fail: err => {

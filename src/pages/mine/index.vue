@@ -2,7 +2,8 @@
   <div class="mine">
     <div class="mine-head">
       <div v-if="isLogin">
-        <img :src="userInfo.avatar" alt="">
+        <img :src="userInfo.avatarUrl" alt="">
+        <!--<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1593078532427&di=9b49a1573f8eacaa9e855a804f34b919&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg" alt="">-->
         <div>{{userInfo.nickName}}</div>
       </div>
       <div v-else>
@@ -38,12 +39,21 @@
       },
       isLogin() {
         return store.state.login
+      },
+      userInfoAuth() {
+        return store.state.auth['scope.userInfo']
       }
     },
     methods: {
       async login() {
+        const a = await mpvue.getUserInfo()
+        const b = await getAuth('userInfo')
+        const c = await mpvue.login()
+        console.log(a)
+        console.log(b)
+        console.log(c)
         try {
-          if (!store['scope.userInfo']) {
+          if (!store.state.auth['scope.userInfo']) {
             await getAuth('userInfo')
           }
           const loginRes = await mpvue.login()
@@ -62,6 +72,7 @@
           data: { code },
         })
           .then(res => {
+            console.log(res)
             this.getRunData(res.result.session_key)
           })
           .catch(console.error)
@@ -69,6 +80,7 @@
       async getRunData(sessionKey) {
         try {
           const { encryptedData, iv } = this.encodeUserInfo
+          console.log(encryptedData, sessionKey, iv)
           const res = await mpvue.cloud.callFunction({
             name: 'getRunData',
             data: {
@@ -107,7 +119,7 @@
         } catch (e) {
           mpvue.log(e)
         }
-      }
+      },
     },
     watch: {
       // 'store.state.login': {

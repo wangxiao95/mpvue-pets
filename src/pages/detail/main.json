@@ -5,6 +5,8 @@
     "i-tab": "../../../static/components/iview/tab/index",
     "i-rate": "../../../static/components/iview/rate/index",
     "i-sticky": "../../../static/components/iview/sticky/index",
-    "i-sticky-item": "../../../static/components/iview/sticky-item/index"
+    "i-sticky-item": "../../../static/components/iview/sticky-item/index",
+    "i-icon": "../../../static/components/iview/icon/index",
+    "i-toast": "../../../static/components/iview/toast/index"
   }
 }

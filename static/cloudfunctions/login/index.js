@@ -24,9 +24,7 @@ exports.main = async (event, context) => {
     js_code: event.code,
     grant_type: ''
   }
-  console.log(data)
   let res = await rp.get('https://api.weixin.qq.com/sns/jscode2session', { qs: data })
-  console.log(res)
   res = JSON.parse(res)
 
   // 可执行其他自定义逻辑
