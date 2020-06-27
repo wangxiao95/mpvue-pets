@@ -3,18 +3,25 @@
     <div class="search-container">
       <Search theme="#ff7800"></Search>
     </div>
-    <scroll-view :scroll-y="true" style="height: calc(100vh - 200rpx)" :enable-back-to-top="true" @scrolltolower="loadMore" :lower-threshold="50">
-      <div class="home-wrapper">
-        <div class="card-column" id="left-column">
-          <Card v-for="(item, i) in leftColumn" :key="i" :item="item" :type="type"/>
+    <div class="inner">
+
+      <scroll-view :scroll-y="true" style="height: calc(100vh - 200rpx)" :enable-back-to-top="true" @scrolltolower="loadMore" :lower-threshold="50">
+        <div class="pets">
+          <div class="pets-item" @click="changeType('dog')">狗</div>
+          <div class="pets-item" @click="changeType('cat')">猫</div>
         </div>
-        <div class="card-column" id="right-column">
-          <Card v-for="(item, i) in rightColumn" :key="i" :item="item" :type="type"/>
+        <div class="home-wrapper">
+          <div class="card-column" id="left-column">
+            <Card v-for="(item, i) in leftColumn" :key="i" :item="item" :type="type"/>
+          </div>
+          <div class="card-column" id="right-column">
+            <Card v-for="(item, i) in rightColumn" :key="i" :item="item" :type="type"/>
+          </div>
         </div>
-      </div>
-      <i-load-more v-if="loading" />
-      <i-load-more v-if="!loading" :tip="loadTip" :loading="false" />
-    </scroll-view>
+        <i-load-more v-if="loading" />
+        <i-load-more v-if="!loading" :tip="loadTip" :loading="false" />
+      </scroll-view>
+    </div>
     <Bar active="home"></Bar>
   </div>
 </template>
@@ -26,7 +33,6 @@
   import { file } from '../../utils/env'
   // import _ from 'lodash'
 
-  // mpvue.cloud.init()
   const db = mpvue.cloud.database()
 
   export default {
@@ -50,7 +56,28 @@
         loadTip: '下拉加载更多'
       }
     },
+    watch: {
+      type: {
+        immediate: true,
+        handler() {
+          this.reset()
+          this.init()
+        }
+      }
+    },
     methods: {
+      reset() {
+        Object.assign(this, {
+          leftColumn: [],
+          rightColumn: [],
+          pageNo: 1,
+          pageSize: 10,
+          pageCount: 0,
+        })
+      },
+      changeType(type) {
+        this.type = type
+      },
       pushColumn () {
         this[this.type].forEach((item, i) => {
           if (i % 2) {
@@ -90,11 +117,14 @@
         const res = await db.collection(this.type).count()
         console.log(res);
         this.pageCount = Math.ceil(res.total / this.pageSize)
+      },
+      init() {
+        this.getData()
+        this.getPageCount()
       }
     },
     mounted () {
-      this.getData()
-      this.getPageCount()
+      this.init()
     },
     onShow() {
       mpvue.hideHomeButton()
@@ -117,13 +147,35 @@
     left: 0;
     width: 100%;
   }
+  .inner {
+    /*background: rgba(255, 120, 0, .1);*/
+    background: #f2f2f2;
+
+    .pets {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      height: 160rpx;
+      background: #fff;
+      border-radius: 10px;
+      margin: 10px auto 4px;
+      &-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        width: 50%;
+        color: #555;
+      }
+    }
+  }
   .home {
-    padding-top: 108rpx;
-    background: rgba(255, 120, 0, .1);
+    padding: 108rpx 20rpx 0;
     &-wrapper {
       display: flex;
       justify-content: space-between;
-      padding: 0 20rpx;
+      /*padding: 0 20rpx;*/
     }
     /*.fixed-top {*/
       /*position: fixed;*/
@@ -134,73 +186,10 @@
 
   .card-column {
     float: left;
-    width: 345rpx;
+    width: 350rpx;
     /*border: 1px solid;*/
     &:last-child {
       /*margin-left: 30rpx;*/
-    }
-  }
-
-  .van-search {
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding: @search-padding;
-    background-color: @search-background-color;
-
-    &__content {
-      display: flex;
-      flex: 1;
-      padding-left: @padding-xs;
-      background-color: @search-content-background-color;
-      border-radius: @border-radius-sm;
-
-      &--round {
-        border-radius: @border-radius-max;
-      }
-    }
-
-    &__label {
-      padding: @search-label-padding;
-      color: @search-label-color;
-      font-size: @search-label-font-size;
-      line-height: @search-input-height;
-    }
-
-    .van-cell {
-      flex: 1;
-      padding: 5px @padding-xs 5px 0;
-      background-color: transparent;
-
-      &__left-icon {
-        color: @search-left-icon-color;
-      }
-    }
-
-    &--show-action {
-      padding-right: 0;
-    }
-
-    input {
-      &::-webkit-search-decoration,
-      &::-webkit-search-cancel-button,
-      &::-webkit-search-results-button,
-      &::-webkit-search-results-decoration {
-        display: none;
-      }
-    }
-
-    &__action {
-      padding: @search-action-padding;
-      color: @search-action-text-color;
-      font-size: @search-action-font-size;
-      line-height: @search-input-height;
-      cursor: pointer;
-      user-select: none;
-
-      &:active {
-        background-color: @active-color;
-      }
     }
   }
 

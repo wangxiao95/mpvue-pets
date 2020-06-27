@@ -1,14 +1,28 @@
 <template>
   <div class="mine">
     <div class="mine-head">
-      <div v-if="isLogin">
-        <img :src="userInfo.avatarUrl" alt="">
-        <!--<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1593078532427&di=9b49a1573f8eacaa9e855a804f34b919&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg" alt="">-->
-        <div>{{userInfo.nickName}}</div>
+      <div v-if="isLogin" class="mine-head__user">
+        <i-avatar i-class="avatar" :src="userInfo.avatarUrl" size="large" shape="circle"></i-avatar>
+        <div class="name">{{userInfo.nickName}}</div>
       </div>
-      <div v-else>
-        <button open-type="getUserInfo" @click="login">登录</button>
+      <div v-else class="mine-head__user">
+        <i-avatar i-class="avatar" src="cloud://prod-2.7072-prod-2-1302420057/common/avatar.png" size="large" shape="circle"></i-avatar>
+        <button class="login-btn" open-type="getUserInfo" @getuserinfo="getAuth">点击登录</button>
       </div>
+    </div>
+    <div>
+      <i-cell-group i-class="cell-group">
+        <i-cell title="我的收藏" is-link></i-cell>
+        <i-cell title="我的帖子" is-link></i-cell>
+        <i-cell title="回复我的" is-link></i-cell>
+<!--        <i-cell title="跳转到首页" is-link url="/pages/dashboard/index"></i-cell>-->
+      </i-cell-group>
+      <i-cell-group i-class="cell-group">
+        <i-cell title="检查更新" is-link>
+          <div slot="footer" style="color: #999999; margin-right: 8px;">1.0.3</div>
+        </i-cell>
+        <i-cell title="关于我们" is-link></i-cell>
+      </i-cell-group>
     </div>
     <Bar active="mine"></Bar>
   </div>
@@ -18,7 +32,6 @@
 
   import Bar from '../../components/Bar'
   import store from '../../store'
-  import { getAuth } from '../../utils'
   import _ from 'lodash'
 
   const db = mpvue.cloud.database()
@@ -30,7 +43,8 @@
 
     data() {
       return {
-
+        auth: false,
+        encodeUserInfo: {}
       }
     },
     computed: {
@@ -40,22 +54,15 @@
       isLogin() {
         return store.state.login
       },
-      userInfoAuth() {
-        return store.state.auth['scope.userInfo']
-      }
     },
     methods: {
+      async getAuth(e) {
+        const user = e.target
+
+        this.login()
+      },
       async login() {
-        const a = await mpvue.getUserInfo()
-        const b = await getAuth('userInfo')
-        const c = await mpvue.login()
-        console.log(a)
-        console.log(b)
-        console.log(c)
         try {
-          if (!store.state.auth['scope.userInfo']) {
-            await getAuth('userInfo')
-          }
           const loginRes = await mpvue.login()
           const code = loginRes.code
           this.encodeUserInfo = await mpvue.getUserInfo()
@@ -72,7 +79,6 @@
           data: { code },
         })
           .then(res => {
-            console.log(res)
             this.getRunData(res.result.session_key)
           })
           .catch(console.error)
@@ -88,21 +94,21 @@
             },
           })
           const user = res.result
-          store.commit('setUserInfo', user)
           const getUser = await db.collection(`user`).where({
-            unionId: user.unionId
+            openId: user.openId
           }).get()
           const hasUser = getUser.data.length
-          this.setUser(hasUser, user)
+          if (hasUser) {
+            store.commit('setUserInfo', getUser.data[0])
+            store.commit('updateLogin', true)
+            return
+          }
+          this.setUser(user)
         } catch (e) {
           mpvue.log(e)
         }
       },
-      async setUser(hasUser, user) {
-        if (hasUser) {
-          store.commit('updateLogin', true)
-          return
-        }
+      async setUser(user) {
         try {
           await db.collection('user').add({
             // data 字段表示需新增的 JSON 数据
@@ -115,6 +121,7 @@
               createdTime: new Date().getTime(),
             })
           })
+          store.commit('setUserInfo', user)
           store.commit('updateLogin', true)
         } catch (e) {
           mpvue.log(e)
@@ -136,7 +143,6 @@
 
     },
     onShow() {
-      console.log(this.getTabBar)
       mpvue.hideHomeButton()
       // if (typeof this.getTabBar === 'function' &&
       //   this.getTabBar()) {
@@ -149,4 +155,45 @@
 </script>
 
 <style lang="less">
+.mine-head {
+  &__user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 320rpx;
+    color: #fff;
+    background: #ff7800;
+    .avatar {
+      width: 180rpx;
+      height: 180rpx;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      /*image {*/
+      /*  color: red;*/
+      /*}*/
+    }
+    .name {
+
+    }
+    .login-btn {
+      width: 120px;
+      height: 40px;
+      color: #fff;
+      font-size: 28rpx;
+      border-radius: 0;
+      border: none;
+      text-align: center;
+      background: #ff7800;
+      &:after {
+        content: none;
+      }
+    }
+  }
+
+}
+.cell-group {
+  margin-top: 10px;
+}
 </style>

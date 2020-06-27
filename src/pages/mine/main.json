@@ -1,7 +1,12 @@
 {
-  "navigationBarTitleText": "我的",
+  "navigationBarTitleText": "个人中心",
+  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#ff7800",
   "usingComponents": {
-  "i-tab-bar": "../../static/components/iview/tab-bar/index",
-  "i-tab-bar-item": "../../static/components/iview/tab-bar-item/index"
-}
+    "i-tab-bar": "../../static/components/iview/tab-bar/index",
+    "i-tab-bar-item": "../../static/components/iview/tab-bar-item/index",
+    "i-cell": "../../static/components/iview/cell/index",
+    "i-cell-group": "../../static/components/iview/cell-group/index",
+    "i-avatar": "../../../static/components/iview/avatar/index"
+  }
 }
