@@ -89,9 +89,5 @@
 </script>
 
 <style lang="less">
-.collection {
-  position: absolute;
-  top: 30rpx;
-  right: 120rpx;
-}
+
 </style>

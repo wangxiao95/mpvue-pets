@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "搜索结果",
+  "usingComponents": {
+    "i-icon": "../../static/components/iview/icon/index",
+    "i-tab-bar-item": "../../static/components/iview/tab-bar-item/index",
+    "i-toast": "../../../static/components/iview/toast/index"
+  }
+}

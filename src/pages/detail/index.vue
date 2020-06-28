@@ -11,7 +11,9 @@
     <div class="detail-info">
       <div class="name">{{detail.name}}</div>
       <div class="price"><span class="price-label">参考价格：</span>{{detail.price}}</div>
-      <Collection :state="collectionState" :id="id" @change="collectionChange"/>
+      <div style="position: absolute;top: 30rpx;right: 120rpx;">
+        <Collection :state="collectionState" :id="id" @change="collectionChange"/>
+      </div>
       <i-icon class="detail-share" size="24" color="#ccc" type="send"></i-icon>
     </div>
     <div class="detail-attrs">

@@ -7,7 +7,8 @@
     "pages/mine/main",
     "pages/detail/main",
     "pages/square/main",
-    "pages/search/main"
+    "pages/search/main",
+    "pages/searchResult/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

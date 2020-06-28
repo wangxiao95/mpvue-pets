@@ -105,11 +105,11 @@
           .then(res => {
             this.loading = false
             this[this.type] = res.data
-            this[this.type] = this[this.type].map(item => {
-              return Object.assign(item, {
-                mainImg: `${file}${this.type}s/${item.mainImg}`
-              })
-            })
+            // this[this.type] = this[this.type].map(item => {
+            //   return Object.assign(item, {
+            //     mainImg: `${file}${this.type}s/${item.mainImg}`
+            //   })
+            // })
             this.pushColumn()
           })
       },
@@ -124,6 +124,9 @@
       }
     },
     mounted () {
+      // this.init()
+    },
+    onLoad() {
       this.init()
     },
     onShow() {

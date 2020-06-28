@@ -8,13 +8,14 @@
       <span class="search-btn" @click="cancel">取消</span>
     </div>
     <div v-show="thinkList.length" class="search-think">
-      <div class="search-think__item" v-for="(item, i) in thinkList" :key="item._id">{{item.name}}</div>
+      <div class="search-think__item" v-for="(item, i) in thinkList" :key="item._id" @click="thinkKeyClick(item.name)">{{item.name}}</div>
     </div>
   </div>
 </template>
 
 <script>
   import _ from 'lodash'
+  import store from '../../store'
 
   const db = mpvue.cloud.database()
 
@@ -35,10 +36,11 @@
     methods: {
       search: _.debounce(function(e) {
         const val = e.target.value
-        console.log(this);
         this.value = val
-        this.thinkKeyWord(val)
-      }, 800),
+        if (val) {
+          this.thinkKeyWord(val)
+        }
+      }, 300),
       async thinkKeyWord(val) {
         const dog = await db.collection('dog').where({
           name: db.RegExp({
@@ -59,9 +61,14 @@
         const result = dog.data.concat(cat.data)
         this.thinkList = result
       },
+      thinkKeyClick(val) {
+        this.value = val
+        this.goSearch()
+      },
       goSearch() {
+        store.commit('updateSearchKw', this.value)
         mpvue.navigateTo({
-          url: '../home/main'
+          url: '../searchResult/main?kw=' + this.value
         })
       },
       cancel() {

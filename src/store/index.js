@@ -8,6 +8,7 @@ const store = new Vuex.Store({
     auth: {},
     userInfo: {},
     login: false,
+    searchKw: ''
   },
   mutations: {
     setAuth: (state, auth) => {
@@ -20,6 +21,9 @@ const store = new Vuex.Store({
     updateLogin: (state, isLogin) => {
       state.login = isLogin
       mpvue.setStorageSync('login', state.login)
+    },
+    updateSearchKw: (state, kw) => {
+      state.searchKw = kw
     }
   },
   actions: {
